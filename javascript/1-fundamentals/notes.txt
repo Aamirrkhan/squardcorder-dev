@@ -1,0 +1,18 @@
+Javascript
+
+
+javascript is a top programming language
+
+it will work on client-side (browser)
+
+you can create large applications with javascript like (netflix,facebook,instagram,gmail)
+
+you can create mobile application with javascript for android/ios
+
+you can create desktop application with javascript
+
+
+
+https://www.w3schools.com/js/js_intro.
+
+
