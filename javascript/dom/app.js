@@ -1,49 +1,64 @@
-const subButton = document.querySelector("#task-button");
-
-subButton.addEventListener("click", function (e) {
+const taskForm = document.querySelector("#task-form");
+taskForm.addEventListener("submit", function (e) {
   e.preventDefault();
-  const tastTitle = document.querySelector(".card-title");
-  if (tastTitle.innerText === "Task List") {
-    tastTitle.innerText = "Changed";
-    subButton.classList.add("active");
-  } else {
-    tastTitle.innerText = "Task List";
-    subButton.classList.remove("active");
-  }
-});
+  const inputFields = document.querySelector("#task");
+  const inputValues = inputFields.value;
 
-// Remove Ul Li div
-const faClick = document.querySelectorAll(".fa-remove");
-faClick.forEach(function (item) {
-  item.addEventListener("click", function (e) {
+  if (!inputValues) {
+    alert("Please Enter the Value");
+    return;
+  }
+
+  // Collection value Enter
+
+  const collection = document.querySelector(".collection");
+
+  const createElementLi = document.createElement("li");
+  createElementLi.className = "collection-item";
+  createElementLi.innerHTML = `${inputValues}
+    <a href="#" class="delete-item secondary-content">
+    <i class="fa fa-remove"></i>
+  </a>`;
+  collection.append(createElementLi);
+  inputFields.value = "";
+
+  //Delete List Li Loop
+  const collectionList = document.querySelector(".collection");
+  collectionList.addEventListener("click", function (e) {
     e.preventDefault();
-    const currentElement = event.target;
-    currentElement.parentElement.parentElement.remove();
+    if (e.target.classList.contains("fa-remove")) {
+      const currentElement = e.target;
+      if (confirm("Are you sure?")) {
+        currentElement.parentElement.parentElement.remove();
+      }
+    }
+  });
+
+  const filterItem = document.querySelector("#filter");
+  filterItem.addEventListener("keyup", function (e) {
+    e.preventDefault();
+    console.log("filter");
+    const currentElementFilter = e.target;
+    const filterInputValue = currentElementFilter.value;
+    const selectAllCollection = document.querySelectorAll(".collection-item");
+    selectAllCollection.forEach((item) => {
+      if (
+        item.innerText.toLowerCase().indexOf(filterInputValue.toLowerCase()) ===
+        -1
+      ) {
+        item.style.display = "none";
+      } else {
+        item.style.display = "block";
+      }
+    });
+  });
+
+  const clearBtn = document.querySelector(".clear-tasks");
+  clearBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    const collectionList = document.querySelector(".collection");
+    if(confirm('Are you sure')){
+      collection.innerHTML = ""
+    }
   });
 });
-
-const selectAllElement = document.querySelectorAll("ul li:nth-child(odd)");
-selectAllElement.forEach(function (item) {
-  item.style.backgroundColor = "rgb(193 193 193 / 28%)";
-});
-const evenElements = document.querySelectorAll("ul li:nth-child(even)");
-evenElements.forEach(function (item) {
-  item.style.backgroundColor = "#fff";
-});
-
-// Remove Ul Completely
-const clearBtn = document.querySelector(".clear-tasks");
-clearBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  const removeAllCollections = document.querySelector(".collection");
-  removeAllCollections.remove();
-});
-
-const inputField = document.querySelector("#task").value;
-inputField.addEventListener("click", function (e) {
-  e.preventDefault();
-  const taskHead = document.querySelector("#task-title").innerHTML =
-    inputField;
-
-});
-console.log(inputField);
